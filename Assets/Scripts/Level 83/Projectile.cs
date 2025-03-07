@@ -1,0 +1,41 @@
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              using UnityEngine;
+
+public class Projectile : MonoBehaviour
+{
+    [SerializeField] private float speed = 10f; 
+
+    private RectTransform _rectTransform;
+
+    private void OnEnable()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+    }
+
+    private void FixedUpdate()
+    {
+        MoveProjectile(); 
+        CheckBounds();    
+    }
+
+    private void MoveProjectile()
+    {
+        _rectTransform.anchoredPosition += Vector2.up * speed * Time.fixedDeltaTime;
+    }
+
+    private void CheckBounds()
+    {
+        if (_rectTransform.anchoredPosition.y > Screen.height)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))  
+        {
+            Destroy(gameObject);  
+            Destroy(collision.gameObject);  
+        }
+    }
+}
